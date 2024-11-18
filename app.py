@@ -34,15 +34,6 @@ df_sedan = data[data["type"] == "sedan"]
 #Crafting webpage
 st.header("Welcome to Fast & Feury-ous New & Used Cars!", divider = "orange")
 
-#Number of cars at a certain price separated by make for SUVs
-price_and_make_suv = px.histogram(df_suv, x ="price", nbins= 300, color = "vehicle_make")
-
-#Number of cars at a certain price separated by make for Trucks
-price_and_make_truck = px.histogram(df_truck, x ="price", nbins= 300, color = "vehicle_make")
-
-#Number of cars at a certain price separated by make for Sedans
-price_and_make_sedan = px.histogram(df_sedan, x ="price", nbins= 300, color = "vehicle_make")
-
 #model type vs manufacturer
 make_vs_type = px.histogram(data, x= "vehicle_make", color ="type", title = "Car Types by Vehicle Manufacturer", labels={"vehicle_make": "Manufacturer"} )
 make_vs_type.update_layout(yaxis_title="Number of Cars Availible") 
