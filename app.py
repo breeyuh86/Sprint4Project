@@ -32,37 +32,43 @@ df_truck = data[data["type"] == "truck"]
 df_sedan = data[data["type"] == "sedan"]
 
 #Crafting webpage
-st.header("Welcome to Fast and Fueryous Used Cars!", divider = "orange")
+st.header("Welcome to Fast & Feury-ous New & Used Cars!", divider = "orange")
 
 #Number of cars at a certain price separated by make for SUVs
 price_and_make_suv = px.histogram(df_suv, x ="price", nbins= 300, color = "vehicle_make")
-price_and_make_suv.show()
 
 #Number of cars at a certain price separated by make for Trucks
 price_and_make_truck = px.histogram(df_truck, x ="price", nbins= 300, color = "vehicle_make")
-price_and_make_truck.show()
 
 #Number of cars at a certain price separated by make for Sedans
 price_and_make_sedan = px.histogram(df_sedan, x ="price", nbins= 300, color = "vehicle_make")
-price_and_make_sedan.show()
+
+#model type vs manufacturer
+make_vs_type = px.histogram(data, x= "vehicle_make", color ="type", title = "Car Types by Vehicle Manufacturer", labels={"vehicle_make": "Manufacturer"} )
+make_vs_type.update_layout(yaxis_title="Number of Cars Availible") 
 
 #model year vs color
-aesthetic = px.histogram(data, x= "model_year", color= "paint_color")
-aesthetic.show()
+aesthetic = px.histogram(data, x= "model_year", color= "paint_color", title = "Car Color and Year", labels={"model_year": "Model Year"})
+aesthetic.update_layout(yaxis_title="Number of Cars Availible") 
 
 #model year vs number of miles on car by vehicle make
-car_use = px.scatter(data, x="odometer", y= "model_year", color= "vehicle_make")
-car_use.show()
+car_use = px.scatter(data, x="model_year", y= "odometer", color= "price", title = "Car Miles vs. Model Release Year by Price", labels={"model_year": "Model Year"})
+car_use.update_layout(yaxis_title="Odometer Reading") 
+
+#condition and type avaiable
+condition = px.histogram(data, x="condition", y="price", histfunc= "avg", color= "type", title = "Price vs. Condition of Availbe Car Types", labels={"condition": "Condition"})
+condition.update_layout(yaxis_title="Average Price") 
 
 #Activate Page
-insurance = st.checkbox("I already have car insurance")
+insurance = st.checkbox("I have car insurance")
 if insurance:
-    st.header("Shop our most popular Vehicle Types!")
-    st.write(price_and_make_suv)
-    st.write(price_and_make_truck)
-    st.write(price_and_make_sedan)
-    st.header("Get A Car that matches your Style")
-    st.write(aesthetic)
-    st.header9("Get the Most Bang for Your Buck!")
-    st.write(car_use)
+    looking = st.checkbox("I am looking to buy!")
+    if looking:
+        st.header("Explore Our Inventory", divider = "blue")
+        st.plotly_chart(make_vs_type)
+        st.header("Find A Car That Matches Your Style", divider = "blue")
+        st.write(aesthetic)
+        st.header("Get the Most Bang for Your Buck!", divider = "blue")
+        st.write(car_use)
+        st.plotly_chart(condition)
 
